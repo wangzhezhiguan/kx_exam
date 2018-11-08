@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kx.exam.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.kx.exam.model.Message">
+    <id column="messageid" jdbcType="VARCHAR" property="messageid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />  
+    <result column="opuserid" jdbcType="VARCHAR" property="opuserid" />
+    <result column="title" jdbcType="VARCHAR" property="title" /> 
+    <result column="uname" property="uname" /> 
+    <result column="ifread" jdbcType="VARCHAR" property="ifread" />    
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="createdate" jdbcType="TIMESTAMP" property="createdate" />
+  </resultMap>
+    <select id="queryList" resultMap="BaseResultMap">
+		select m.messageid, m.userid, DATE_FORMAT(m.createdate, '%Y-%m-%d %H:%i:%s') createdate, content,u.uname,m.ifread from xt_message m left join xt_userinfo u on m.userid=u.userid
+		<where>
+		<if test="null != message.userid"> and  m.userid=#{message.userid}</if>
+		<if test="null != message.ifread"> and  ifread = #{message.ifread}</if>
+		<if test="null != message.opuserid"> and  opuserid = #{message.opuserid}</if>
+		</where>
+		order by createdate desc
+	</select>
+  <delete id="deleteByIds" parameterType="java.lang.String">
+    delete from xt_message
+    where messageid = #{messageid}
+  </delete>
+  <insert id="inserts" parameterType="com.kx.exam.model.Message">
+    insert into xt_message (messageid, userid, opuserid, 
+      createdate, content,ifread)
+    values (#{messageid}, #{userid}, #{opuserid}, 
+      #{createdate}, #{content},#{ifread})
+  </insert>
+  <update id="updateByIds" parameterType="com.kx.exam.model.Message">
+    update xt_message
+    set userid = #{userid},
+
+      content = #{content}
+    where messageid = #{messageid}
+  </update>
+  <select id="selectByIds" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select messageid, userid, opuserid, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate, content,ifread
+    from xt_message
+    where messageid = #{messageid}
+  </select>
+  <select id="selectAlls" resultMap="BaseResultMap">
+    select messageid, userid, opuserid, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate, content,ifread
+    from xt_message
+  </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kx.exam.mapper.UmessageMapper">
+  <resultMap id="BaseResultMap" type="com.kx.exam.model.Umessage">
+    <id column="messageid" jdbcType="VARCHAR" property="messageid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="parentid" jdbcType="VARCHAR" property="parentid" />
+    <result column="createdate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from xt_umessage
+    where messageid = #{messageid}
+  </delete>
+  <insert id="insert" parameterType="com.kx.exam.model.Umessage">
+    insert into xt_umessage (messageid, userid, parentid, 
+      createdate, content)
+    values (#{messageid}, #{userid}, #{parentid}, 
+      now(), #{content})
+  </insert>
+  <update id="updateById" parameterType="com.kx.exam.model.Umessage">
+    update xt_umessage
+    set userid = #{userid},
+      content = #{content}
+    where messageid = #{messageid}
+  </update>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select messageid, userid, parentid, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate, content
+    from xt_umessage
+    where messageid = #{messageid}
+  </select>
+  <select id="selectAlls"  parameterType="java.lang.String"  resultMap="BaseResultMap">
+    select messageid, userid, parentid, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate, content
+    from xt_umessage <where> <if test="userid != null">userid = #{userid}</if> </where> order by createdate desc
+  </select>
+  <select id="sp_createRandom" parameterType="java.lang.String" resultType="java.lang.Integer" useCache="false"
+        statementType="CALLABLE">  
+        <![CDATA[ 
+        call Sp_CreateRandom(
+        #{loginName,mode=IN,jdbcType=VARCHAR},4,
+        #{result,mode=OUT,jdbcType=INTEGER});
+        ]]>
+    </select>
+    
+</mapper>

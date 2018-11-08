@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kx.exam.mapper.ILogMapper">
+	<resultMap id="BaseResultMap" type="com.kx.exam.model.ILog">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="customerid" jdbcType="VARCHAR" property="customerid" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="method" jdbcType="VARCHAR" property="method" />
+		<result column="params" jdbcType="VARCHAR" property="params" />
+		<result column="requestip" jdbcType="VARCHAR" property="requestip" />
+		<result column="exclass" jdbcType="VARCHAR" property="exclass" />
+		<result column="detail" jdbcType="VARCHAR" property="detail" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="oper_date" jdbcType="VARCHAR" property="operDate" />
+	</resultMap>
+ <select id="queryList" resultMap="BaseResultMap">
+  select id,username,type,customerid,url,p.opuserid,p.customerid, p.months, p.moneyrate,p.amountmonth, DATE_FORMAT(p.createdate, '%Y-%m-%d %H:%i:%s') createdate, 
+    p.content,opu.opname from xt_product as p inner join xt_oper_user opu on p.opuserid=opu.opuserid 
+    where 1=1 <if test="null != product.status and ''!=product.status"> and  p.status=#{product.status}</if>
+    <if test="null != product.opuserid and ''!=product.opuserid"> and  p.opuserid=#{product.opuserid}</if>
+    <if test="null != product.title and ''!=product.title"> and (locate(#{product.title}, p.title) > 0)</if>
+  </select>
+</mapper>

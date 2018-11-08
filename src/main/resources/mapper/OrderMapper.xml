@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kx.exam.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.kx.exam.model.Order">
+    <!--
+      
+      
+    -->
+    <id column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="productid" jdbcType="VARCHAR" property="productid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="amount_first" jdbcType="DOUBLE" property="amountFirst" />
+    <result column="months" jdbcType="INTEGER" property="months" />
+    <result column="amount_month" jdbcType="DOUBLE" property="amountMonth" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="createdate" jdbcType="TIMESTAMP" property="createdate" />
+  </resultMap>
+  <delete id="deleteById" parameterType="java.lang.String">
+    <!--
+      
+      
+    -->
+    delete from xt_order
+    where orderid = #{orderid}
+  </delete>
+  <insert id="insert" parameterType="com.kx.exam.model.Order">
+    <!--
+      
+      
+    -->
+    insert into xt_order (orderid, productid, userid, 
+      amount, amount_first, months, 
+      amount_month, status, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate
+      )
+    values (#{orderid}, #{productid}, #{userid}, 
+      #{amount}, #{amountFirst}, #{months}, 
+      #{amountMonth}, #{status}, #{createdate}
+      )
+  </insert>
+  <update id="updateById" parameterType="com.kx.exam.model.Order">
+    <!--
+      
+      
+    -->
+    update xt_order
+    set productid = #{productid},
+      userid = #{userid},
+      amount = #{amount},
+      amount_first = #{amountFirst},
+      months = #{months},
+      amount_month = #{amountMonth},
+      status = #{status},
+      createdate = #{createdate}
+    where orderid = #{orderid}
+  </update>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+      
+      
+    -->
+    select orderid, productid, userid, amount, amount_first, months, amount_month, status, 
+    createdate
+    from xt_order
+    where orderid = #{orderid}
+  </select>
+  <select id="selectAlls" resultMap="BaseResultMap">
+    <!--
+      
+      
+    -->
+    select orderid, productid, userid, amount, amount_first, months, amount_month, status, 
+    createdate
+    from xt_order
+  </select>
+</mapper>

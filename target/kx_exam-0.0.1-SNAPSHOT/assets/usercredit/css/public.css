@@ -1,0 +1,119 @@
+.pagination-ifr{padding:0; margin: 5px 0; text-align: left; overflow: hidden;}
+.pagination-ifr div{float:left;}
+.pagination-ifr .paging-info-ifr{line-height:35px; padding-right: 20px; overflow: hidden;}
+.pagination-ifr .paging-info-ifr input{width:40px; line-height: 20px; margin: 0 5px; border: 0; border-bottom: 1px solid #38CBCD; text-align: center;}
+.pagination-ifr .paging-margin{margin-right:5px;}
+.pagination{margin: 0 !important;}
+.help-block{margin-bottom: 5px;}
+.hr-line-dashed{margin: 10px 0;}
+.cursor-hand{cursor: pointer;}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px;
+}
+
+a.asc:after {
+  content: "\e151";
+}
+
+a.desc:after {
+  content: "\e152";
+}
+
+.sort-numerical a.asc:after {
+  content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+  content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+  content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+  content: "\e156";
+}
+
+.grid-view td {
+  white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+  min-width: 50px;
+}
+
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+}
+
+.error-summary {
+  color: #a94442;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+
+.image-ifr{
+  overflow: hidden;
+}
+
+.image-ifr .image-box{
+  position: relative;
+  display: table;
+  margin: 8px 16px 8px 0;
+  border: 1px solid #ddd;
+  box-shadow: 1px 1px 5px 0 #a2958a;
+  padding: 6px;
+  text-align: center;
+  float: left;
+}
+
+.image-ifr .image-box:hover{
+  box-shadow: 3px 3px 5px 0 #999;;
+}
+
+.image-ifr .image-box .image-item .img{
+  width: auto;
+  height: 160px;
+  vertical-align: middle;
+  border: 0;
+}
+
+.image-ifr .image-box .image-item .img{
+  width: auto;
+  height: 160px;
+  vertical-align: middle;
+  border: 0;
+}
+
+.image-ifr .image-box .image-info{
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 160px;
+  text-align: center;
+  padding-top: 4px;
+  font-size: 11px;
+  color: #777;
+  margin: 5px auto;
+}
+
+.image-ifr .image-box .image-foot button{
+  float: left;
+  margin-right: 5px;
+}

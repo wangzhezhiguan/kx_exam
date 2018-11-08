@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kx.exam.mapper.Oper_userMapper">
+	<resultMap id="BaseResultMap" type="com.kx.exam.model.Oper_user">
+		<id column="opuserid" jdbcType="VARCHAR" property="opuserid" />
+		<result column="username" jdbcType="CHAR" property="username" />
+		<result column="password" jdbcType="CHAR" property="password" />
+		<result column="opname" jdbcType="VARCHAR" property="opname" />
+		<result column="customerid" jdbcType="VARCHAR" property="customerid" />
+		<result column="compid" jdbcType="VARCHAR" property="compid" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="weixin" jdbcType="VARCHAR" property="weixin" />
+		<result column="qrcode" jdbcType="VARCHAR" property="qrcode" />
+		<result column="belongto" jdbcType="VARCHAR" property="belongto" />
+		<result column="useable" jdbcType="TINYINT" property="useable" />
+		<result column="ifoper" jdbcType="VARCHAR" property="ifoper" />
+		<result column="roleid" jdbcType="VARCHAR" property="roleid" />
+		<result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+		<result column="logintime" jdbcType="TIMESTAMP" property="logintime" />
+		<result column="compname" property="compname" />
+		<result column="balance" property="balance" />
+		<result column="smsbalance" property="smsbalance" />
+		<result column="loginip" jdbcType="VARCHAR" property="loginip" />
+		<association property="role" column="roleid" javaType="com.kx.exam.model.AuthRole">
+			<id property="roleid" column="roleid" />
+			<result property="rolename" column="rolename" />
+			<result property="cname" column="cname" />
+			<result property="types" column="types" />
+		</association>
+	</resultMap>
+	
+	<insert id="addAdmin" ><!--  useGeneratedKeys="true" keyProperty="id">-->
+		insert into xt_oper_user(opuserid,username,opname,weixin,qrcode,password,roleid,mobile,belongto,customerid,compid, addtime) values(#{opuserid},#{username},#{opname},#{weixin},#{qrcode},#{password}, #{roleid},#{mobile},#{customerid},#{compid}, now())
+	</insert>
+
+	<select id="queryByUsername" resultMap="BaseResultMap">
+		select 
+			u.opuserid, u.username,u.opname,u.weixin,u.qrcode,u.password,u.ifoper,u.email,u.mobile,u.belongto,u.useable,u.customerid,u.compid, u.loginip, DATE_FORMAT(u.logintime, '%Y-%m-%d %H:%i:%s') logintime, DATE_FORMAT(u.addtime, '%Y-%m-%d %H:%i:%s') addtime, u.roleid,
+			r.rolename, r.cname,r.types,c.compname,c.balance,c.smsbalance from xt_oper_user u inner join auth_role r on u.roleid = r.roleid left join xt_compinfo c on u.customerid=c.customerid and length(c.level)=5
+		where u.username = #{username}  
+	</select>
+	<select id="selectByOperUserid" resultMap="BaseResultMap">
+		select 
+			u.opuserid, u.username,u.opname,u.weixin,u.qrcode,u.password,u.ifoper, u.email,u.mobile,u.belongto,u.useable,u.customerid,u.compid, u.loginip, DATE_FORMAT(u.logintime, '%Y-%m-%d %H:%i:%s') logintime, DATE_FORMAT(u.addtime, '%Y-%m-%d %H:%i:%s') addtime from xt_oper_user u 
+		where u.opuserid = #{opuserid}
+	</select>
+	<select id="selectByCustomerid" resultMap="BaseResultMap">
+		select 
+			u.opuserid, u.username,u.opname,u.weixin,u.qrcode,u.password, u.ifoper,u.email,u.mobile,u.belongto,u.useable,u.customerid,u.compid, u.loginip, DATE_FORMAT(u.logintime, '%Y-%m-%d %H:%i:%s') logintime, DATE_FORMAT(u.addtime, '%Y-%m-%d %H:%i:%s') addtime, u.roleid,
+			r.rolename, r.cname,r.types from xt_oper_user u, auth_role r 
+		where u.customerid = #{customerid} and u.roleid = r.roleid
+	</select>
+	
+	
+	<select id="queryList" resultMap="BaseResultMap">
+		select 
+			u.opuserid, u.username,u.opname, u.weixin,u.qrcode,u.email,u.mobile,u.belongto,u.useable, u.loginip,u.customerid,u.compid, DATE_FORMAT(u.logintime, '%Y-%m-%d %H:%i:%s') logintime, DATE_FORMAT(u.addtime, '%Y-%m-%d') addtime, u.roleid,
+			r.rolename, r.cname,r.types from xt_oper_user u, auth_role r 
+		where u.roleid = r.roleid
+		<if test="null != oper_user.username"> and (locate(#{oper_user.username}, u.username) > 0 or locate(#{oper_user.opname}, u.opname) > 0) </if>
+		<if test="null != oper_user.roleid"> and u.roleid = #{oper_user.roleid}</if>
+		<if test="null != oper_user.customerid"> and u.customerid = #{oper_user.customerid}</if>
+		<if test="null != oper_user.compid"> and u.compid = #{oper_user.compid}</if>
+		<if test="null != oper_user.useable"> and u.useable = #{oper_user.useable}</if>
+		order by u.addtime desc
+	</select>
+	
+	<select id="queryRoleUids" resultType="string">
+		select u.opuserid from xt_oper_user u where u.roleid = #{roleid}
+	</select>
+	
+	<update id="bindUser">
+		update xt_oper_user set roleid = #{roleid} where opuserid = #{opuserid}
+	</update>
+	<!-- 获得商户号 -->
+	<select id="comp_getCompno" resultType="string">
+		<![CDATA[
+			SELECT GET_SN(3)
+			]]>
+	</select>
+</mapper>

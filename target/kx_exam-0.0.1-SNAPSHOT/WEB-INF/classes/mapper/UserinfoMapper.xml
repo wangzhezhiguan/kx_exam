@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kx.exam.mapper.UserinfoMapper">
+  <resultMap id="BaseResultMap" type="com.kx.exam.model.Userinfo">
+    <id column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="loginname" jdbcType="VARCHAR" property="loginname" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="customerid" jdbcType="VARCHAR" property="customerid" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="compname" jdbcType="VARCHAR" property="compname" />
+    <result column="compaddress" jdbcType="VARCHAR" property="compaddress" />
+    <result column="comptel" jdbcType="VARCHAR" property="comptel" />
+    <result column="income" jdbcType="VARCHAR" property="income" />
+    <result column="areaid" jdbcType="INTEGER" property="areaid" />
+    <result column="usertype" jdbcType="VARCHAR" property="usertype" />
+    <result column="belongto" jdbcType="VARCHAR" property="belongto" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />    
+    <result column="weixin" jdbcType="VARCHAR" property="weixin" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="gpsaddress" jdbcType="VARCHAR" property="gpsaddress" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="headpic" jdbcType="VARCHAR" property="headpic" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="balance" jdbcType="DOUBLE" property="balance" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+     <result column="ifmarriage" jdbcType="VARCHAR" property="ifmarriage" />
+    <result column="cardid" jdbcType="VARCHAR" property="cardid" />
+    <result column="creditfen" jdbcType="INTEGER" property="creditfen" />
+    <result column="lastlogindate" jdbcType="TIMESTAMP" property="lastlogindate" />
+    <result column="logins" jdbcType="INTEGER" property="logins" />
+    <result column="pwderrordate" jdbcType="TIMESTAMP" property="pwderrordate" />
+    <result column="pwderrorlogins" jdbcType="INTEGER" property="pwderrorlogins" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="fromapp" jdbcType="VARCHAR" property="fromapp" />
+    <result column="fromchannel" jdbcType="VARCHAR" property="fromchannel" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="ifbasic" jdbcType="VARCHAR" property="ifbasic" />
+    <result column="ifid" jdbcType="VARCHAR" property="ifid" />
+    <result column="ifcontacts" jdbcType="VARCHAR" property="ifcontacts" />
+    <result column="ifcarrier" jdbcType="VARCHAR" property="ifcarrier" />
+    <result column="ifvideo" jdbcType="VARCHAR" property="ifvideo" />
+    <result column="ifother" jdbcType="VARCHAR" property="ifother" />
+    <result column="ifrenzheng" jdbcType="VARCHAR" property="ifrenzheng" />
+    <result column="createdate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="compid" property="compid" />
+<!--     <result column="ifoper" property="ifoper" /> -->
+    <association property="oper_user" column="opuserid" javaType="com.kx.exam.model.Oper_user">
+			<id property="opuserid" column="opuserid" />
+			<result property="opname" column="opname" />
+	</association>	
+  </resultMap>
+  <select id="queryList" resultMap="BaseResultMap">  
+    select u.userid,u.customerid,u.mobile,u.uname,u.nickname,u.compname,u.compaddress,u.comptel,u.income,u.areaid,u.usertype, 
+    u.belongto,u.sex,u.tel,u.qq,u.weixin,u.email,u.address,u.gpsaddress,u.post,u.birthday,u.headpic,u.status, 
+    u.balance,u.education,u.ifmarriage,u.cardid,u.creditfen, o.opuserid, o.opname,
+    u.fromapp,u.fromchannel, 
+    u.remark,u.ifrenzheng,u.ifbasic,u.ifid,u.ifcontacts,u.ifcarrier,u.ifvideo,u.ifother, DATE_FORMAT(u.createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo u inner join xt_usertoopuser uo on u.userid=uo.userid inner join xt_oper_user o on o.opuserid=uo.opuserid where 1=1
+    <if test="null != userinfo.uname"> and (locate(#{userinfo.uname}, u.uname) > 0 or locate(#{userinfo.compname},u.compname) > 0 or locate(#{userinfo.mobile},u.mobile) > 0) </if>
+	<if test="null != userinfo.status"> and u.status = #{userinfo.status}</if>
+	<if test="null != userinfo.customerid"> and uo.customerid = #{userinfo.customerid}</if>
+	<if test="null != userinfo.opuserid"> and uo.opuserid = #{userinfo.opuserid}</if>
+	order by u.createdate desc
+  </select>
+    <select id="queryListOper" resultMap="BaseResultMap">  
+    select u.userid,u.customerid,u.mobile,u.uname,u.nickname,u.compname,u.compaddress,u.comptel,u.income,u.areaid,u.usertype, 
+    u.belongto,u.sex,u.tel,u.qq,u.weixin,u.email,u.address,u.gpsaddress,u.post,u.birthday,u.headpic,u.status, 
+    u.balance,u.education,u.ifmarriage,u.cardid,u.creditfen, o.opuserid, o.opname,
+    u.fromapp,u.fromchannel, 
+    u.remark,u.ifrenzheng,u.ifbasic,u.ifid,u.ifcontacts,u.ifcarrier,u.ifvideo,u.ifother, DATE_FORMAT(u.createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo u left join xt_usertoopuser uo on u.userid=uo.userid left join xt_oper_user o on o.opuserid=uo.opuserid where 1=1
+    <if test="null != userinfo.uname"> and (locate(#{userinfo.uname}, u.uname) > 0 or locate(#{userinfo.compname},u.compname) > 0 or locate(#{userinfo.mobile},u.mobile) > 0) </if>
+	<if test="null != userinfo.status"> and u.status = #{userinfo.status}</if>
+	<if test="null != userinfo.customerid"> and uo.customerid = #{userinfo.customerid}</if>
+	<if test="null != userinfo.opuserid"> and uo.opuserid = #{userinfo.opuserid}</if>
+	order by u.createdate desc
+  </select>
+  <select id="selectUsertopuser" resultMap="BaseResultMap">  
+    select u.userid,uo.customerid,u.mobile,u.uname,u.nickname,u.compname,u.compaddress,u.comptel,u.income,u.areaid,u.usertype, 
+    uo.compid     
+    from xt_userinfo u left join xt_usertoopuser uo on u.userid=uo.userid where 1=1
+    <if test="null != userid"> and u.userid = #{userid}</if>
+	limit 1
+  </select>
+  <select id="shenqueryList" resultMap="BaseResultMap">
+  select userid, mobile,  uname, nickname, compname, areaid, usertype, 
+    belongto, sex, tel, qq, weixin, email, address,gpsaddress, post, birthday, headpic, status, 
+    balance, education,ifmarriage, cardid, creditfen,  
+    fromapp, fromchannel, 
+    remark,ifrenzheng,ifbasic,ifid,ifcontacts,ifcarrier,ifvideo,ifother, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo where status in(0,1,2,4,6,11,12,13)
+    <if test="null != userinfo.uname"> and (locate(#{userinfo.uname}, uname) > 0 or locate(#{userinfo.compname},compname) > 0 or locate(#{userinfo.mobile},mobile) > 0) </if>
+		<if test="null != userinfo.status"> and status = #{userinfo.status}</if>
+		order by createdate desc
+  </select>
+  <delete id="deleteById" parameterType="string">
+    delete from xt_userinfo   where userid = #{userid}
+  </delete>
+  <insert id="insertdata" parameterType="com.kx.exam.model.Userinfo">
+    insert into xt_userinfo (userid, loginname, mobile, 
+      password, uname, nickname, 
+      compname,compaddress,comptel,income, areaid, usertype, 
+      belongto, sex, tel, 
+      qq, weixin, email, 
+      address,gpsaddress, post, birthday, 
+      headpic, status, balance, 
+      education,ifmarriage, cardid, creditfen, 
+      lastlogindate, logins, pwderrordate, 
+      pwderrorlogins,latitude, longitude, 
+      fromapp, fromchannel, 
+      remark, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate)
+    values (#{userid}, #{loginname}, #{mobile}, 
+      #{password}, #{uname}, #{nickname}, 
+      #{compname}, #{compaddress},#{comptel},#{income},#{areaid}, #{usertype}, 
+      #{belongto}, #{sex}, #{tel}, 
+      #{qq}, #{weixin}, #{email}, 
+      #{address}, #{gpsaddress},#{post}, #{birthday}, 
+      #{headpic}, #{status}, #{balance}, 
+      #{education},#{ifmarriage}, #{cardid}, #{creditfen}, 
+      #{lastlogindate}, #{logins}, #{pwderrordate}, 
+      #{pwderrorlogins},#{latitude}, #{longitude}, 
+      #{fromapp}, #{fromchannel}, 
+      #{remark}, #{createdate})
+  </insert>
+ <update id="updateuserinfo" >
+    update xt_userinfo
+    <set>
+      <if test=" '' != userinfo.uname and       null != userinfo.uname"> uname = #{userinfo.uname},</if>
+      <if test=" '' != userinfo.nickname and    null != userinfo.nickname"> nickname = #{userinfo.nickname},</if>
+      <if test=" '' != userinfo.compname and    null != userinfo.compname"> compname = #{userinfo.compname},</if>
+      <if test=" '' != userinfo.usertype and    null != userinfo.usertype"> usertype = #{userinfo.usertype},</if>
+      <if test=" '' != userinfo.belongto and    null != userinfo.belongto"> belongto = #{userinfo.belongto},</if>
+      <if test=" '' != userinfo.sex and         null != userinfo.sex"> sex = #{userinfo.sex},</if>
+      <if test=" '' != userinfo.tel and         null != userinfo.tel"> tel = #{userinfo.tel},</if>
+      <if test=" '' != userinfo.qq and          null != userinfo.qq"> qq = #{userinfo.qq},</if>
+      <if test=" '' != userinfo.weixin and      null != userinfo.weixin"> weixin = #{userinfo.weixin},</if>
+      <if test=" '' != userinfo.email and       null != userinfo.email"> email = #{userinfo.email},</if>
+      <if test=" '' != userinfo.address and     null != userinfo.address"> address = #{userinfo.address},</if>
+      <if test=" '' != userinfo.post and        null != userinfo.post"> post = #{userinfo.post},</if>
+      <if test=" '' != userinfo.birthday and    null != userinfo.birthday"> birthday = #{userinfo.birthday},</if>
+      <if test=" '' != userinfo.headpic and     null != userinfo.headpic"> headpic = #{userinfo.headpic},</if>      
+      <if test=" '' != userinfo.balance and     null != userinfo.balance"> balance = #{userinfo.balance},</if>
+      <if test=" '' != userinfo.education and   null != userinfo.education"> education = #{userinfo.education},</if>
+      <if test=" '' != userinfo.ifmarriage and  null != userinfo.ifmarriage"> ifmarriage = #{userinfo.ifmarriage},</if>
+      <if test=" '' != userinfo.cardid and      null != userinfo.cardid"> cardid = #{userinfo.cardid},</if>
+      <if test=" '' != userinfo.creditfen and   null != userinfo.creditfen"> creditfen = #{userinfo.creditfen},</if>
+      <if test=" '' != userinfo.fromapp and     null != userinfo.fromapp"> fromapp = #{userinfo.fromapp},</if>
+      <if test=" '' != userinfo.fromchannel and null != userinfo.fromchannel"> fromchannel = #{userinfo.fromchannel},</if>
+      <if test=" '' != userinfo.remark and      null != userinfo.remark"> remark = #{userinfo.remark},</if>
+      <if test=" '' != userinfo.ifrenzheng and  null != userinfo.ifrenzheng"> ifrenzheng = #{userinfo.ifrenzheng},</if>
+      <if test=" '' != userinfo.status and      null != userinfo.status"> status = #{userinfo.status},</if>
+      <if test=" '' != userinfo.ifbasic and      null != userinfo.ifbasic"> ifbasic = #{userinfo.ifbasic},</if>
+      <if test=" '' != userinfo.ifid and      null != userinfo.ifid"> ifid = #{userinfo.ifid},</if>
+		<if test=" '' != userinfo.ifcontacts and      null != userinfo.ifcontacts"> ifcontacts = #{userinfo.ifcontacts},</if>  
+		<if test=" '' != userinfo.ifcarrier and      null != userinfo.ifcarrier"> ifcarrier = #{userinfo.ifcarrier},</if>  
+		<if test=" '' != userinfo.ifvideo and      null != userinfo.ifvideo"> ifvideo = #{userinfo.ifvideo},</if>  
+		<if test=" '' != userinfo.ifother and      null != userinfo.ifother"> ifother = #{userinfo.ifother},</if>           
+      </set> 
+
+    where userid = #{userinfo.userid}
+  </update>
+  <update id="updateById" parameterType="com.kx.exam.model.Userinfo">
+    update xt_userinfo
+    <set>
+			<if test="password != null and ''!= password">password = #{password},</if>
+			<if test="opuserid != null and ''!= opuserid">opuserid = #{opuserid},</if>
+			<if test="uname != null and ''!= uname">uname = #{uname},</if>
+			<if test="nickname != null and ''!= nickname">nickname = #{nickname},</if>
+			<if test="compname != null and ''!= compname">compname = #{compname},</if>
+			<if test="compaddress != null and ''!= compaddress">compaddress = #{compaddress},</if>
+			<if test="mobile != null and ''!= mobile">mobile = #{mobile},</if>
+			<if test="comptel != null and ''!= comptel">comptel = #{comptel},</if>
+			<if test="ifrenzheng != null and ''!= ifrenzheng">ifrenzheng = #{ifrenzheng},</if>
+			<if test="sex != null and ''!= sex">sex = #{sex},</if>
+			<if test="belongto != null and ''!= belongto">belongto = #{belongto},</if>
+			<if test="tel != null and ''!= tel">tel = #{tel},</if>
+			<if test="weixin != null and ''!= weixin">weixin = #{weixin},</if>
+			<if test="email != null and ''!= email">email = #{email},</if>
+			<if test="gpsaddress != null and ''!= gpsaddress">gpsaddress = #{gpsaddress},</if>
+			<if test="address != null and ''!= address">address = #{address},</if>
+			
+			<if test="status != null and ''!= status">status = #{status},</if>
+			<if test="cardid != null and ''!= cardid">cardid = #{cardid},</if>
+
+			<if test="creditfen != null and ''!= creditfen">creditfen = #{creditfen},</if>
+			<if test="latitude != null and ''!= latitude">latitude = #{latitude},</if>
+			<if test="longitude != null and ''!= longitude">longitude = #{longitude},</if>
+			<if test="fromchannel != null and ''!= fromchannel">fromchannel = #{fromchannel},</if>
+			<if test="ifbasic != null and ''!= ifbasic">ifbasic = #{ifbasic},</if>
+			<if test="ifid != null and ''!=ifid">ifid = #{ifid},</if>
+			<if test="ifcontacts != null and ''!=ifcontacts">ifcontacts = #{ifcontacts},</if>
+			
+			<if test="balance != null and ''!=balance">balance = #{balance},</if>
+		</set>
+    where userid = #{userid}
+  </update>
+  <update id="updateByStatusId" parameterType="com.kx.exam.model.Userinfo">
+    update xt_userinfo  set status = #{status}   where userid = #{userid}
+  </update>
+  <select id="selectById" parameterType="string" resultMap="BaseResultMap">
+    select userid, loginname, mobile, password, uname, nickname, compname,compaddress,comptel,income, areaid, usertype, 
+     belongto, sex, tel, qq, weixin, email, address,gpsaddress, post, birthday, headpic, status, 
+    balance, education,ifmarriage, cardid, creditfen, lastlogindate, logins, pwderrordate, pwderrorlogins, 
+    latitude, longitude, fromapp, fromchannel,remark,ifrenzheng,ifbasic,ifid,ifcontacts,ifcarrier,ifvideo,ifother, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo
+    where userid = #{userid}
+  </select>
+  <select id="userlogin" parameterType="string" resultMap="BaseResultMap">
+    select userid, loginname,customerid, mobile, password, uname, nickname, compname,compaddress,comptel,income, areaid, usertype, 
+     belongto, sex, tel, qq, weixin, email, address,gpsaddress, post, birthday, headpic, status, 
+    balance, education,ifmarriage, cardid, creditfen, lastlogindate, logins, pwderrordate, pwderrorlogins, 
+    latitude, longitude, fromapp, fromchannel,remark,ifrenzheng,ifbasic,ifid,ifcontacts,ifcarrier,ifvideo,ifother, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo
+    where loginname = #{loginname} limit 1
+  </select>
+  <select id="selectByCustomerid" parameterType="string" resultMap="BaseResultMap">
+    select userid, loginname, mobile, password, uname, nickname, compname,compaddress,comptel,income, areaid, usertype, 
+     belongto, sex, tel, qq, weixin, email, address, gpsaddress,post, birthday, headpic, status, 
+    balance, education, ifmarriage,cardid, creditfen, 
+    fromapp, fromchannel, 
+    remark,ifrenzheng,ifbasic,ifid,ifcontacts,ifcarrier,ifvideo,ifother, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo
+    where customerid = #{customerid}
+  </select>
+  <select id="selectAlls" resultMap="BaseResultMap">
+    select userid,customerid, loginname, mobile, password, uname, nickname, compname,compaddress,comptel,income, areaid, usertype, 
+    belongto, sex, tel, qq, weixin, email, address,gpsaddress, post, birthday, headpic, status, 
+    balance,education,ifmarriage,cardid,creditfen, lastlogindate,logins, pwderrordate, pwderrorlogins, 
+    latitude, longitude, fromapp,fromchannel, 
+    remark,ifrenzheng,ifbasic,ifid,ifcontacts,ifcarrier,ifvideo,ifother, DATE_FORMAT(createdate, '%Y-%m-%d %H:%i:%s') createdate
+    from xt_userinfo
+  </select>
+  
+  <insert id="insertIp" parameterType="com.kx.exam.model.Userip">
+  	insert into xt_userip(userip,customerid,ip,createdate) values(#{userip},#{customerid},#{ip},DATE_FORMAT(now(),'%Y-%m-%d %H:%i%s') )
+  </insert>
+   <insert id="insertUserToOpuser">
+  	insert into xt_usertoopuser(userid,opuserid,customerid,productid,createdate) values(#{userid},#{opuserid},#{customerid},#{productid},now())
+  </insert>
+  <!-- 重分配审核员 -->
+  <delete id="delUsertoopuser">
+    delete  from xt_usertoopuser where userid = #{userid} and customerid = #{customerid}
+  </delete>
+</mapper>
