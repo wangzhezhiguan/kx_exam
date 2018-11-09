@@ -1,0 +1,24 @@
+.box-main {
+	padding-top: 15px;
+	padding-right: 20px;
+}
+
+.upload-box {
+	float: left
+}
+
+.myHeadImg {
+	width: 260px;
+	height: 100px;
+	margin-left: 20px;
+	float: left;
+}
+
+.showFileBox {
+	width: 260px;
+	height: 133px;
+	margin-left: 20px;
+	border: 1px dashed #e2e2e2;
+	overflow-y: scroll;
+	float: left;
+}

@@ -195,6 +195,7 @@ public class RoleController extends BaseController {
 		map.put("roleid", roleid);
 		
 		return "auth/role/opers_role";
+		//return "auth/role/operslist";
 	}
 
 	@Authority(ifOper = "0",opCode = "010206", opName = "角色已绑定权限")

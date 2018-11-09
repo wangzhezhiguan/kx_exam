@@ -6390,7 +6390,7 @@ a, a:hover {
 	display: block;
 	font-size: 13px;
 	line-height: 10px;
-	padding: 11px 14px;
+	padding: 5px 18px;
 	text-decoration: none
 }
 
@@ -6805,7 +6805,7 @@ a, a:hover {
 
 @media ( min-width :768px) {
 	#main-wrapper, .mme #main-wrapper {
-		padding-left: 240px
+		padding-left: 180px
 	}
 	.mmc.mme #content-wrapper, .mme #content-wrapper, .mme #main-navbar .navbar-inner
 		{
@@ -12895,7 +12895,7 @@ body:not (.right-to-left ) .no-border-l {
 #menu-content-demo {
 	white-space: nowrap !important;
 	position: relative;
-	padding-left: 86px !important
+	padding-left: 80px !important
 }
 
 #menu-content-demo img {

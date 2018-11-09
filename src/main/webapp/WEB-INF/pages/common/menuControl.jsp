@@ -142,7 +142,7 @@
 		    </li>
 		     <li class="mm-dropdown">
 		        <a href="#"><i class="menu-icon fa fa-cogs"></i><span class="mm-text">权限管理</span></a>
-		        <ul class="submenu" style="display: block;">
+		        <ul>
 		            <li>
 		                <a tabindex="-1" href="opmainPage" onclick="skipurl('opmainPage');return false;"><span class="mm-text">管理员管理</span></a>
 		            </li>
